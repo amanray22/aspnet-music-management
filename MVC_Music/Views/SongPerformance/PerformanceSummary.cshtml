@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MVC_Music.ViewModels.PerformanceSummaryVM>
+
+@{
+    ViewData["Title"] = "Performance Summary";
+}
+
+<h2>Performance Summary Report</h2>
+<a asp-action="PerformanceSummaryExport" class="btn btn-info float-end">Export to Excel</a>
+<form asp-controller="SongPerformance" asp-action="PerformanceSummary" method="get">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FormalName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Average_FeePaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Highest_FeePaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lowest_FeePaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total_Performances)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total_Songs)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FormalName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Average_FeePaid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Highest_FeePaid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lowest_FeePaid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total_Performances)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total_Songs)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_PagingNavBar" />
+</form>
+@section Scripts {
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

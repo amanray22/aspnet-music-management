@@ -1,0 +1,84 @@
+@using MVC_Music.ViewModels
+@{
+    ViewData["Title"] = "Home Page";
+    var showDemo = ViewData["ShowDemoAccounts"] as bool? == true;
+    var demoPassword = ViewData["DemoPassword"] as string ?? "";
+    var demoAccounts = ViewData["DemoAccounts"] as List<DemoAccount> ?? new List<DemoAccount>();
+    var isProduction = ViewData["IsProduction"] as bool? == true;
+}
+
+<div class="text-center mt-4">
+    <h1 class="display-4">Music Collection</h1>
+    <h2 class="display-6" style="font-weight:700">By: Aman Ray</h2>
+    <div class="home-background"></div>
+
+    @if (showDemo)
+    {
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8">
+                <div class="card border-primary shadow-sm text-start">
+                    <div class="card-header bg-primary text-white">
+                        <strong>Demo Login Accounts</strong>
+                        @if (isProduction)
+                        {
+                            <span class="badge bg-light text-primary ms-2">Production Demo</span>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3">
+                            Use any account below with password
+                            <code>@demoPassword</code>.
+                            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-sm btn-primary ms-2">Sign In</a>
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var account in demoAccounts)
+                                    {
+                                        <tr>
+                                            <td><code>@account.Email</code></td>
+                                            <td>@account.Role</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-muted small mt-3 mb-0">
+                            Sample musicians, albums, songs, and performances are seeded automatically on startup.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="mt-4">
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Sign In</a>
+        </p>
+    }
+
+    <p class="mt-4">
+        <a asp-controller="Musician" asp-action="Index" class="btn btn-outline-secondary">Browse Musicians</a>
+    </p>
+</div>
+
+@section Scripts {
+    <script>
+        if (navigator.serviceWorker.controller) {
+            console.log('Active service worker found, no need to register');
+        } else {
+            navigator.serviceWorker.register('sw.js', {
+                scope: './'
+            }).then(function (reg) {
+                console.log('Service worker registered for scope:' + reg.scope);
+            });
+        }
+    </script>
+}
